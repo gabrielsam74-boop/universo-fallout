@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import { falloutGames } from '@/lib/fallout-games';
-import { getLocalStats, getTotalViews, getTopPages } from '@/lib/analytics';
+import { getLocalStats } from '@/lib/analytics';
 
 interface PageView {
   page: string;

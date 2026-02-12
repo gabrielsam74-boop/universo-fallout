@@ -164,3 +164,19 @@ export function resetStats() {
   if (typeof window === 'undefined') return;
   localStorage.removeItem(STORAGE_KEY);
 }
+
+// Reseta todos os likes e votos
+export function resetAllVotes() {
+  if (typeof window === 'undefined') return;
+  
+  // Remove todos os likes
+  localStorage.removeItem(LIKES_KEY);
+  
+  // Remove todos os votos individuais
+  const keys = Object.keys(localStorage);
+  keys.forEach(key => {
+    if (key.startsWith('vote_')) {
+      localStorage.removeItem(key);
+    }
+  });
+}
