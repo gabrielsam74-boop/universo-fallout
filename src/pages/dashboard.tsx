@@ -1,136 +1,266 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Header from '@/components/Header';
-import MetricCard from '@/components/MetricCard';
-import PostCard from '@/components/PostCard';
-import { getPosts, addPost, deletePost, getMetrics, updateMetrics, Post, Metric } from '@/lib/data';
+import { falloutGames } from '@/lib/fallout-games';
+
+interface PageView {
+  page: string;
+  views: number;
+  label: string;
+}
 
 export default function Dashboard() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [metrics, setMetrics] = useState<Metric[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    type: 'news' as 'news' | 'announcement'
+  const [pageViews, setPageViews] = useState<PageView[]>([
+    { page: '/', views: 0, label: 'Página Inicial' },
+    { page: '/serie', views: 0, label: 'Série TV' },
+    ...falloutGames.map(game => ({
+      page: `/game/${game.id}`,
+      views: 0,
+      label: game.title
+    }))
+  ]);
+
+  const [stats, setStats] = useState({
+    totalGames: falloutGames.length,
+    totalVaults: 0,
+    totalFactions: 0,
+    lastUpdate: new Date().toLocaleDateString('pt-BR')
   });
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(() => {
-      updateMetrics();
-      setMetrics(getMetrics());
-    }, 5000);
+    // Simula contagem de vaults e facções
+    import('@/lib/vaults-data').then(module => {
+      const vaultCount = Object.values(module.vaultsByGame).flat().length;
+      setStats(prev => ({ ...prev, totalVaults: vaultCount }));
+    });
+
+    import('@/lib/factions-data').then(module => {
+      const factionCount = Object.values(module.factions).flat().length;
+      setStats(prev => ({ ...prev, totalFactions: factionCount }));
+    });
+
+    // Simula visualizações (em produção, isso viria do Vercel Analytics)
+    const simulateViews = () => {
+      setPageViews(prev => prev.map(pv => ({
+        ...pv,
+        views: pv.views + Math.floor(Math.random() * 5)
+      })));
+    };
+
+    const interval = setInterval(simulateViews, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  const loadData = () => {
-    setPosts(getPosts());
-    setMetrics(getMetrics());
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addPost(formData);
-    setFormData({ title: '', content: '', type: 'news' });
-    setShowForm(false);
-    loadData();
-  };
-
-  const handleDelete = (id: string) => {
-    deletePost(id);
-    loadData();
-  };
+  const totalViews = pageViews.reduce((sum, pv) => sum + pv.views, 0);
+  const mostViewed = [...pageViews].sort((a, b) => b.views - a.views).slice(0, 5);
 
   return (
     <>
       <Head>
-        <title>Dashboard - Vault-Tec</title>
+        <title>Estatísticas - Universo Fallout</title>
+        <meta name="description" content="Estatísticas e informações do site Universo Fallout" />
       </Head>
 
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-black">
         <Header />
 
         <main className="container mx-auto px-4 py-20 sm:py-24">
-          <h1 className="text-3xl sm:text-4xl font-retro pip-boy-text mb-6 sm:mb-8">
-            PAINEL DE CONTROLE
-          </h1>
-
-          {/* Metrics */}
-          <section className="mb-8 sm:mb-12">
-            <h2 className="text-xl sm:text-2xl font-retro pip-boy-text mb-3 sm:mb-4">MÉTRICAS EM TEMPO REAL</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {metrics.map((metric, idx) => (
-                <MetricCard key={idx} metric={metric} />
-              ))}
-            </div>
-          </section>
-
-          {/* Post Management */}
-          <section className="mb-8 sm:mb-12">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-3 sm:mb-4">
-              <h2 className="text-xl sm:text-2xl font-retro pip-boy-text">GERENCIAR POSTAGENS</h2>
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="terminal-border bg-vault-blue hover:bg-vault-yellow hover:text-black px-4 sm:px-6 py-2 transition text-sm sm:text-base w-full sm:w-auto"
-              >
-                {showForm ? 'CANCELAR' : 'NOVA POSTAGEM'}
-              </button>
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-8 sm:mb-12">
+              <Link href="/" className="text-yellow-400 hover:text-yellow-300 mb-4 inline-block text-sm sm:text-base">
+                ← Voltar para início
+              </Link>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl bethesda-title text-yellow-500 mb-4 glow-yellow">
+                ESTATÍSTICAS
+              </h1>
+              <p className="text-gray-400 text-base sm:text-lg">
+                Dados e informações sobre o Universo Fallout
+              </p>
             </div>
 
-            {showForm && (
-              <form onSubmit={handleSubmit} className="terminal-border bg-vault-gray p-4 sm:p-6 mb-4 sm:mb-6 crt-effect">
-                <div className="mb-4">
-                  <label className="block mb-2 text-sm sm:text-base">Título:</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full bg-vault-dark terminal-border p-2 text-vault-green text-sm sm:text-base"
-                    required
-                  />
+            {/* Stats Grid */}
+            <section className="mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+                CONTEÚDO DO SITE
+              </h2>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
+                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                    {stats.totalGames}
+                  </div>
+                  <p className="text-gray-400 text-sm sm:text-base">Jogos Catalogados</p>
                 </div>
-                <div className="mb-4">
-                  <label className="block mb-2 text-sm sm:text-base">Conteúdo:</label>
-                  <textarea
-                    value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    className="w-full bg-vault-dark terminal-border p-2 text-vault-green h-20 sm:h-24 text-sm sm:text-base"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block mb-2 text-sm sm:text-base">Tipo:</label>
-                  <select
-                    value={formData.type}
-                    onChange={(e) => setFormData({ ...formData, type: e.target.value as 'news' | 'announcement' })}
-                    className="bg-vault-dark terminal-border p-2 text-vault-green text-sm sm:text-base w-full sm:w-auto"
-                  >
-                    <option value="news">Notícia</option>
-                    <option value="announcement">Anúncio</option>
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  className="terminal-border bg-vault-yellow text-black hover:bg-white px-4 sm:px-6 py-2 transition text-sm sm:text-base w-full sm:w-auto"
-                >
-                  PUBLICAR
-                </button>
-              </form>
-            )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-              {posts.map(post => (
-                <PostCard
-                  key={post.id}
-                  post={post}
-                  onDelete={handleDelete}
-                  showActions
-                />
-              ))}
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
+                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                    {stats.totalVaults}
+                  </div>
+                  <p className="text-gray-400 text-sm sm:text-base">Vaults Documentados</p>
+                </div>
+
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
+                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                    {stats.totalFactions}
+                  </div>
+                  <p className="text-gray-400 text-sm sm:text-base">Facções Registradas</p>
+                </div>
+
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
+                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                    1
+                  </div>
+                  <p className="text-gray-400 text-sm sm:text-base">Série de TV</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Page Views */}
+            <section className="mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+                PÁGINAS MAIS VISITADAS
+              </h2>
+              <div className="bg-gray-900/80 border border-yellow-600/30 p-6 sm:p-8 crt-effect">
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-yellow-500 bethesda-title text-sm">TOTAL DE VISUALIZAÇÕES</span>
+                    <span className="text-yellow-500 bethesda-title text-2xl">{totalViews}</span>
+                  </div>
+                  <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-yellow-500 transition-all duration-500"
+                      style={{ width: `${Math.min((totalViews / 100) * 100, 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {mostViewed.map((pv, idx) => (
+                    <div key={pv.page} className="flex items-center gap-4">
+                      <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
+                        #{idx + 1}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
+                          <span className="text-yellow-500 bethesda-title">{pv.views}</span>
+                        </div>
+                        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-yellow-600 transition-all duration-500"
+                            style={{ width: `${(pv.views / Math.max(...pageViews.map(p => p.views))) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Timeline Info */}
+            <section className="mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+                LINHA DO TEMPO FALLOUT
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-6 crt-effect">
+                  <h3 className="text-xl bethesda-title text-yellow-400 mb-4">📅 CRONOLOGIA</h3>
+                  <ul className="space-y-3 text-gray-300 text-sm sm:text-base">
+                    <li>• <span className="text-yellow-500">2077:</span> Grande Guerra Nuclear</li>
+                    <li>• <span className="text-yellow-500">2161:</span> Fallout 1</li>
+                    <li>• <span className="text-yellow-500">2241:</span> Fallout 2</li>
+                    <li>• <span className="text-yellow-500">2277:</span> Fallout 3</li>
+                    <li>• <span className="text-yellow-500">2281:</span> Fallout New Vegas</li>
+                    <li>• <span className="text-yellow-500">2287:</span> Fallout 4</li>
+                    <li>• <span className="text-yellow-500">2296:</span> Série TV</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-900/80 border border-yellow-600/30 p-6 crt-effect">
+                  <h3 className="text-xl bethesda-title text-yellow-400 mb-4">🎮 LANÇAMENTOS</h3>
+                  <ul className="space-y-3 text-gray-300 text-sm sm:text-base">
+                    <li>• <span className="text-yellow-500">1997:</span> Fallout (PC)</li>
+                    <li>• <span className="text-yellow-500">1998:</span> Fallout 2 (PC)</li>
+                    <li>• <span className="text-yellow-500">2008:</span> Fallout 3 (Multi)</li>
+                    <li>• <span className="text-yellow-500">2010:</span> New Vegas (Multi)</li>
+                    <li>• <span className="text-yellow-500">2015:</span> Fallout 4 (Multi)</li>
+                    <li>• <span className="text-yellow-500">2018:</span> Fallout 76 (Multi)</li>
+                    <li>• <span className="text-yellow-500">2024:</span> Série Amazon</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            {/* About Project */}
+            <section className="mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+                SOBRE O PROJETO
+              </h2>
+              <div className="bg-gray-900/80 border border-yellow-600/30 p-6 sm:p-8 crt-effect">
+                <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+                  O <span className="text-yellow-500 bethesda-title">Universo Fallout</span> é um projeto de fãs dedicado a catalogar 
+                  e apresentar toda a história, personagens, facções e localizações da icônica série de jogos Fallout.
+                </p>
+                <p className="text-gray-300 text-base sm:text-lg leading-relaxed mb-6">
+                  Nosso objetivo é criar uma experiência imersiva que capture a essência do universo pós-apocalíptico, 
+                  com design inspirado nos terminais Pip-Boy e na estética retro-futurista característica da série.
+                </p>
+                <div className="border-t border-gray-700 pt-6 mt-6">
+                  <h4 className="text-yellow-500 bethesda-title text-lg mb-3">RECURSOS DO SITE:</h4>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-300 text-sm sm:text-base">
+                    <li>✓ História completa de todos os jogos</li>
+                    <li>✓ Informações sobre a série de TV</li>
+                    <li>✓ Detalhes de Vaults e experimentos</li>
+                    <li>✓ Facções e suas ideologias</li>
+                    <li>✓ Timeline interativa</li>
+                    <li>✓ Player de música ambiente</li>
+                    <li>✓ Design responsivo para mobile</li>
+                    <li>✓ Estética Pip-Boy autêntica</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            {/* Tech Stack */}
+            <section>
+              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+                TECNOLOGIAS UTILIZADAS
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {[
+                  { name: 'Next.js', icon: '⚡' },
+                  { name: 'React', icon: '⚛️' },
+                  { name: 'TypeScript', icon: '📘' },
+                  { name: 'Tailwind CSS', icon: '🎨' },
+                  { name: 'Vercel', icon: '▲' },
+                  { name: 'Vercel Analytics', icon: '📊' },
+                ].map(tech => (
+                  <div key={tech.name} className="bg-gray-900/80 border border-yellow-600/30 p-4 text-center crt-effect">
+                    <div className="text-3xl mb-2">{tech.icon}</div>
+                    <p className="text-yellow-500 bethesda-title text-sm">{tech.name}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Last Update */}
+            <div className="mt-12 text-center">
+              <p className="text-gray-500 text-sm">
+                Última atualização: {stats.lastUpdate}
+              </p>
             </div>
-          </section>
+          </div>
         </main>
+
+        <footer className="bg-black border-t-2 border-green-500 py-6 sm:py-8 text-center shadow-lg shadow-green-500/30">
+          <p className="text-green-400/60 pip-boy-text mb-2 text-sm sm:text-base px-4">
+            © 2077 Vault-Tec Corporation • Universo Fallout
+          </p>
+          <p className="text-green-400/40 text-xs pip-boy-text max-w-4xl mx-auto px-4">
+            Fallout® é marca registrada da Bethesda Softworks LLC. Este site é um projeto de fãs não oficial.
+          </p>
+        </footer>
       </div>
     </>
   );

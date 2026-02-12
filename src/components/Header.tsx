@@ -25,7 +25,7 @@ export default function Header() {
             Cronologia
           </Link>
           <Link href="/dashboard" className="text-yellow-400 hover:text-yellow-300 transition text-sm uppercase tracking-wider">
-            Dashboard
+            Estatísticas
           </Link>
         </nav>
 
@@ -75,7 +75,7 @@ export default function Header() {
               className="block text-yellow-400 hover:text-yellow-300 transition text-sm uppercase tracking-wider py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Dashboard
+              Estatísticas
             </Link>
           </div>
         </nav>
