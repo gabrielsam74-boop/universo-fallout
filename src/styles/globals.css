@@ -114,7 +114,7 @@ body {
 }
 
 .glow-yellow {
-  box-shadow: 0 0 30px rgba(253, 184, 19, 0.6);
+  text-shadow: 0 0 20px rgba(253, 184, 19, 0.8), 0 0 40px rgba(253, 184, 19, 0.4);
 }
 
 .card-hover {

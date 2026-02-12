@@ -68,9 +68,13 @@ export default function GamePage() {
             <Link href="/" className="text-yellow-400 hover:text-yellow-300 mb-4 inline-block text-sm sm:text-base">
               ← Voltar para todos os jogos
             </Link>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl bethesda-title text-yellow-500 mb-3 sm:mb-4 glow-yellow">
-              {game.title}
-            </h1>
+            <div>
+              <div className="inline-block border-2 border-yellow-600/50 p-3 sm:p-4 mb-3 sm:mb-4">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl bethesda-title text-yellow-500 glow-yellow leading-none">
+                  {game.title}
+                </h1>
+              </div>
+            </div>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 text-base sm:text-lg text-gray-300">
               <span>🎮 Lançamento: {game.year}</span>
               <span>📅 Cronologia: {game.chronology}</span>
