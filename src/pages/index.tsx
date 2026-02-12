@@ -115,7 +115,12 @@ export default function Home() {
                       </div>
                     </div>
                   </Link>
-                  <div className="absolute bottom-4 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+                  <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center gap-2 bg-black/80 px-3 py-1 rounded border border-yellow-600/50">
+                      <span className="text-yellow-500 bethesda-title text-sm">⭐</span>
+                      <span className="text-yellow-400 bethesda-title text-lg">{game.rating}</span>
+                      <span className="text-gray-500 text-xs">/100</span>
+                    </div>
                     <LikeButton pageId={`/game/${game.id}`} />
                   </div>
                 </div>
@@ -164,7 +169,12 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
-                <div className="absolute bottom-4 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center gap-2 bg-black/80 px-3 py-1 rounded border border-yellow-600/50">
+                    <span className="text-yellow-500 bethesda-title text-sm">⭐</span>
+                    <span className="text-yellow-400 bethesda-title text-lg">94</span>
+                    <span className="text-gray-500 text-xs">/100</span>
+                  </div>
                   <LikeButton pageId="/serie" />
                 </div>
               </div>

@@ -10,6 +10,7 @@ export interface FalloutGame {
   mainFactions: string[];
   keyEvents: string[];
   image: string;
+  rating: number; // Nota do Metacritic (0-100)
 }
 
 export const falloutGames: FalloutGame[] = [
@@ -30,7 +31,8 @@ export const falloutGames: FalloutGame[] = [
       'Destruição dos planos do Mestre',
       'Exílio do Vault 13'
     ],
-    image: '/images/games/fallout-1.jpg'
+    image: '/images/games/fallout-1.jpg',
+    rating: 89
   },
   {
     id: 'fallout-2',
@@ -49,7 +51,8 @@ export const falloutGames: FalloutGame[] = [
       'Destruição dos planos genocidas da Enclave',
       'Salvação de Arroyo'
     ],
-    image: '/images/games/fallout-2.jpg'
+    image: '/images/games/fallout-2.jpg',
+    rating: 86
   },
   {
     id: 'fallout-3',
@@ -68,7 +71,8 @@ export const falloutGames: FalloutGame[] = [
       'Batalha contra a Enclave',
       'Ativação do purificador de água'
     ],
-    image: '/images/games/fallout-3.jpg'
+    image: '/images/games/fallout-3.jpg',
+    rating: 91
   },
   {
     id: 'fallout-nv',
@@ -87,7 +91,8 @@ export const falloutGames: FalloutGame[] = [
       'Escolha de facção para a Batalha da Represa Hoover',
       'Decisão do futuro de New Vegas'
     ],
-    image: '/images/games/fallout-nv.jpg'
+    image: '/images/games/fallout-nv.jpg',
+    rating: 84
   },
   {
     id: 'fallout-4',
@@ -107,7 +112,8 @@ export const falloutGames: FalloutGame[] = [
       'Revelação sobre Shaun/Father',
       'Escolha do destino da Commonwealth'
     ],
-    image: '/images/games/fallout-4.jpg'
+    image: '/images/games/fallout-4.jpg',
+    rating: 87
   },
   {
     id: 'fallout-76',
@@ -127,7 +133,8 @@ export const falloutGames: FalloutGame[] = [
       'Lançamento de mísseis nucleares',
       'Chegada dos Settlers e Raiders'
     ],
-    image: '/images/games/fallout-76.jpg'
+    image: '/images/games/fallout-76.jpg',
+    rating: 52
   }
 ];
 
