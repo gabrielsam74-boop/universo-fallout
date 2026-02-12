@@ -93,13 +93,20 @@ export default function Dashboard() {
       <div className="min-h-screen bg-black">
         <Header />
 
-        <main className="container mx-auto px-4 py-20 sm:py-24">
+        <main id="main-content" className="container mx-auto px-4 py-20 sm:py-24">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8 sm:mb-12">
-              <Link href="/" className="text-yellow-400 hover:text-yellow-300 mb-4 inline-block text-sm sm:text-base">
+              <Link 
+                href="/" 
+                className="text-yellow-400 hover:text-yellow-300 mb-4 inline-block text-sm sm:text-base"
+                aria-label="Voltar para página inicial"
+              >
                 ← Voltar para início
               </Link>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl bethesda-title text-yellow-500 mb-4 glow-yellow">
+              <h1 
+                className="text-4xl sm:text-5xl md:text-6xl bethesda-title text-yellow-500 mb-4 glow-yellow"
+                id="page-title"
+              >
                 ESTATÍSTICAS
               </h1>
               <p className="text-gray-400 text-base sm:text-lg">
@@ -108,34 +115,64 @@ export default function Dashboard() {
             </div>
 
             {/* Stats Grid */}
-            <section className="mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+            <section 
+              className="mb-12 sm:mb-16"
+              aria-labelledby="content-stats-title"
+            >
+              <h2 
+                id="content-stats-title"
+                className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6"
+              >
                 CONTEÚDO DO SITE
               </h2>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
-                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6" role="list">
+                <div 
+                  className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect"
+                  role="listitem"
+                >
+                  <div 
+                    className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2"
+                    aria-label={`${stats.totalGames} jogos catalogados`}
+                  >
                     {stats.totalGames}
                   </div>
                   <p className="text-gray-400 text-sm sm:text-base">Jogos Catalogados</p>
                 </div>
 
-                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
-                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                <div 
+                  className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect"
+                  role="listitem"
+                >
+                  <div 
+                    className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2"
+                    aria-label={`${stats.totalVaults} vaults documentados`}
+                  >
                     {stats.totalVaults}
                   </div>
                   <p className="text-gray-400 text-sm sm:text-base">Vaults Documentados</p>
                 </div>
 
-                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
-                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                <div 
+                  className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect"
+                  role="listitem"
+                >
+                  <div 
+                    className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2"
+                    aria-label={`${stats.totalFactions} facções registradas`}
+                  >
                     {stats.totalFactions}
                   </div>
                   <p className="text-gray-400 text-sm sm:text-base">Facções Registradas</p>
                 </div>
 
-                <div className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect">
-                  <div className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2">
+                <div 
+                  className="bg-gray-900/80 border border-yellow-600/30 p-5 sm:p-6 text-center crt-effect"
+                  role="listitem"
+                >
+                  <div 
+                    className="text-4xl sm:text-5xl bethesda-title text-yellow-500 mb-2"
+                    aria-label="1 série de TV"
+                  >
                     1
                   </div>
                   <p className="text-gray-400 text-sm sm:text-base">Série de TV</p>
@@ -144,13 +181,24 @@ export default function Dashboard() {
             </section>
 
             {/* Page Views */}
-            <section className="mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
+            <section 
+              className="mb-12 sm:mb-16"
+              aria-labelledby="views-title"
+            >
+              <h2 
+                id="views-title"
+                className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6"
+              >
                 CONTEÚDO MAIS VISITADO
               </h2>
               <div className="bg-gray-900/80 border border-yellow-600/30 p-6 sm:p-8 crt-effect">
                 {!isClient ? (
-                  <div className="text-center py-8 text-gray-400">
+                  <div 
+                    className="text-center py-8 text-gray-400"
+                    role="status"
+                    aria-live="polite"
+                  >
+                    <span className="sr-only">Carregando estatísticas...</span>
                     Carregando estatísticas...
                   </div>
                 ) : totalViews === 0 ? (
@@ -161,23 +209,43 @@ export default function Dashboard() {
                     <p className="text-gray-400 text-sm sm:text-base mb-4">
                       Visite as páginas dos jogos ou da série para começar a coletar estatísticas!
                     </p>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <Link href="/serie" className="text-yellow-500 hover:text-yellow-400 text-sm">
+                    <nav className="flex flex-wrap gap-2 justify-center" aria-label="Links rápidos">
+                      <Link 
+                        href="/serie" 
+                        className="text-yellow-500 hover:text-yellow-400 text-sm"
+                        aria-label="Ver página da série de TV"
+                      >
                         Ver Série →
                       </Link>
-                      <Link href="/#jogos" className="text-yellow-500 hover:text-yellow-400 text-sm">
+                      <Link 
+                        href="/#jogos" 
+                        className="text-yellow-500 hover:text-yellow-400 text-sm"
+                        aria-label="Ver lista de jogos"
+                      >
                         Ver Jogos →
                       </Link>
-                    </div>
+                    </nav>
                   </div>
                 ) : (
                   <>
                     <div className="mb-6">
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-yellow-500 bethesda-title text-sm">TOTAL DE VISUALIZAÇÕES</span>
-                        <span className="text-yellow-500 bethesda-title text-2xl">{totalViews}</span>
+                        <span 
+                          className="text-yellow-500 bethesda-title text-2xl"
+                          aria-label={`${totalViews} visualizações totais`}
+                        >
+                          {totalViews}
+                        </span>
                       </div>
-                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                      <div 
+                        className="h-2 bg-gray-800 rounded-full overflow-hidden"
+                        role="progressbar"
+                        aria-valuenow={Math.min((totalViews / 50) * 100, 100)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label="Progresso de visualizações"
+                      >
                         <div 
                           className="h-full bg-yellow-500 transition-all duration-500"
                           style={{ width: `${Math.min((totalViews / 50) * 100, 100)}%` }}
@@ -185,19 +253,38 @@ export default function Dashboard() {
                       </div>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="space-y-4" role="list" aria-label="Conteúdo mais visitado">
                       {mostViewed.length > 0 ? (
                         mostViewed.map((pv, idx) => (
-                          <div key={pv.page} className="flex items-center gap-4">
-                            <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
+                          <div 
+                            key={pv.page} 
+                            className="flex items-center gap-4"
+                            role="listitem"
+                          >
+                            <div 
+                              className="text-yellow-500 bethesda-title text-xl min-w-[30px]"
+                              aria-label={`Posição ${idx + 1}`}
+                            >
                               #{idx + 1}
                             </div>
                             <div className="flex-1">
                               <div className="flex justify-between items-center mb-1">
                                 <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
-                                <span className="text-yellow-500 bethesda-title">{pv.views}</span>
+                                <span 
+                                  className="text-yellow-500 bethesda-title"
+                                  aria-label={`${pv.views} visualizações`}
+                                >
+                                  {pv.views}
+                                </span>
                               </div>
-                              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                              <div 
+                                className="h-2 bg-gray-800 rounded-full overflow-hidden"
+                                role="progressbar"
+                                aria-valuenow={(pv.views / maxViews) * 100}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
+                                aria-label={`${pv.label}: ${pv.views} visualizações`}
+                              >
                                 <div 
                                   className="h-full bg-yellow-600 transition-all duration-500"
                                   style={{ width: `${(pv.views / maxViews) * 100}%` }}
@@ -312,7 +399,10 @@ export default function Dashboard() {
           </div>
         </main>
 
-        <footer className="bg-black border-t-2 border-green-500 py-6 sm:py-8 text-center shadow-lg shadow-green-500/30">
+        <footer 
+          className="bg-black border-t-2 border-green-500 py-6 sm:py-8 text-center shadow-lg shadow-green-500/30"
+          role="contentinfo"
+        >
           <p className="text-green-400/60 pip-boy-text mb-2 text-sm sm:text-base px-4">
             © 2077 Vault-Tec Corporation • Universo Fallout
           </p>
