@@ -268,19 +268,19 @@ $breakpoint-xl: 1280px;  // Desktop large
 ## 🔒 10. Segurança
 
 ### Básico
-- [ ] HTTPS habilitado
-- [ ] Sanitizar inputs
-- [ ] Validar dados no backend
-- [ ] Usar `rel="noopener"` em links externos
-- [ ] Não expor API keys no frontend
-- [ ] Content Security Policy (CSP)
+- [x] HTTPS habilitado
+- [x] Sanitizar inputs
+- [x] Validar dados no backend
+- [x] Usar `rel="noopener"` em links externos
+- [x] Não expor API keys no frontend
+- [x] Content Security Policy (CSP)
 
 ### Avançado
-- [ ] Rate limiting em APIs
-- [ ] CORS configurado
+- [x] Rate limiting em APIs
+- [x] CORS configurado
 - [ ] Autenticação segura (JWT)
-- [ ] Proteção contra XSS
-- [ ] Proteção contra CSRF
+- [x] Proteção contra XSS
+- [x] Proteção contra CSRF
 
 ---
 
