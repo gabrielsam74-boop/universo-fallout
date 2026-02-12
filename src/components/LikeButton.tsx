@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getLikes, addLike, addDislike } from '@/lib/analytics';
+import { getLikes, addLike, addDislike, removeLike, removeDislike } from '@/lib/analytics';
 
 interface LikeButtonProps {
   pageId: string;
@@ -11,7 +11,7 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
   const [userVote, setUserVote] = useState<'like' | 'dislike' | null>(null);
 
   useEffect(() => {
-    // Carrega likes do localStorage
+    // Carrega likes reais do localStorage
     const stats = getLikes(pageId);
     setLikes(stats.likes);
     setDislikes(stats.dislikes);
@@ -26,14 +26,7 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
   const handleLike = () => {
     if (userVote === 'like') {
       // Anula o voto de like
-      const currentStats = getLikes(pageId);
-      if (currentStats.likes > 0) {
-        currentStats.likes -= 1;
-        localStorage.setItem('fallout_likes', JSON.stringify({
-          ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
-          [pageId]: currentStats
-        }));
-      }
+      removeLike(pageId);
       setLikes(prev => Math.max(0, prev - 1));
       setUserVote(null);
       localStorage.removeItem(`vote_${pageId}`);
@@ -42,15 +35,8 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
     
     if (userVote === 'dislike') {
       // Remove dislike e adiciona like
-      const currentStats = getLikes(pageId);
-      if (currentStats.dislikes > 0) {
-        currentStats.dislikes -= 1;
-      }
-      currentStats.likes += 1;
-      localStorage.setItem('fallout_likes', JSON.stringify({
-        ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
-        [pageId]: currentStats
-      }));
+      removeDislike(pageId);
+      addLike(pageId);
       setDislikes(prev => Math.max(0, prev - 1));
       setLikes(prev => prev + 1);
     } else {
@@ -66,14 +52,7 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
   const handleDislike = () => {
     if (userVote === 'dislike') {
       // Anula o voto de dislike
-      const currentStats = getLikes(pageId);
-      if (currentStats.dislikes > 0) {
-        currentStats.dislikes -= 1;
-        localStorage.setItem('fallout_likes', JSON.stringify({
-          ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
-          [pageId]: currentStats
-        }));
-      }
+      removeDislike(pageId);
       setDislikes(prev => Math.max(0, prev - 1));
       setUserVote(null);
       localStorage.removeItem(`vote_${pageId}`);
@@ -82,15 +61,8 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
     
     if (userVote === 'like') {
       // Remove like e adiciona dislike
-      const currentStats = getLikes(pageId);
-      if (currentStats.likes > 0) {
-        currentStats.likes -= 1;
-      }
-      currentStats.dislikes += 1;
-      localStorage.setItem('fallout_likes', JSON.stringify({
-        ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
-        [pageId]: currentStats
-      }));
+      removeLike(pageId);
+      addDislike(pageId);
       setLikes(prev => Math.max(0, prev - 1));
       setDislikes(prev => prev + 1);
     } else {

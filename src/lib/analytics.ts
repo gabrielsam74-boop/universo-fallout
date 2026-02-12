@@ -85,6 +85,24 @@ export function addDislike(page: string) {
   saveLikes(page, stats);
 }
 
+// Remove um like
+export function removeLike(page: string) {
+  const stats = getLikes(page);
+  if (stats.likes > 0) {
+    stats.likes -= 1;
+    saveLikes(page, stats);
+  }
+}
+
+// Remove um dislike
+export function removeDislike(page: string) {
+  const stats = getLikes(page);
+  if (stats.dislikes > 0) {
+    stats.dislikes -= 1;
+    saveLikes(page, stats);
+  }
+}
+
 // Obtém todos os likes
 export function getAllLikes(): Record<string, LikeStats> {
   if (typeof window === 'undefined') return {};
