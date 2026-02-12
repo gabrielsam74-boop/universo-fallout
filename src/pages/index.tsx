@@ -17,9 +17,15 @@ export default function Home() {
         <Header />
 
         {/* Hero Section */}
-        <section className="hero-section min-h-screen flex items-center justify-center text-center px-4 pt-20">
+        <section 
+          className="hero-section min-h-screen flex items-center justify-center text-center px-4 pt-20"
+          aria-labelledby="hero-title"
+        >
           <div className="max-w-5xl fade-in">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl bethesda-title text-yellow-500 mb-4 sm:mb-6 glow-yellow">
+            <h1 
+              id="hero-title"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl bethesda-title text-yellow-500 mb-4 sm:mb-6 glow-yellow"
+            >
               UNIVERSO FALLOUT
             </h1>
             <p className="text-xl sm:text-2xl md:text-3xl text-yellow-400 mb-6 sm:mb-8 tracking-wide">
@@ -30,10 +36,18 @@ export default function Home() {
               até os eventos mais recentes. Cada jogo conta uma história única no mundo pós-apocalíptico.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-              <a href="#jogos" className="bg-yellow-600 hover:bg-yellow-500 text-black px-6 sm:px-8 py-3 text-base sm:text-lg bethesda-title transition-all glow-yellow">
+              <a 
+                href="#jogos" 
+                className="bg-yellow-600 hover:bg-yellow-500 text-black px-6 sm:px-8 py-3 text-base sm:text-lg bethesda-title transition-all glow-yellow"
+                aria-label="Ir para seção de jogos"
+              >
                 VER JOGOS
               </a>
-              <a href="#cronologia" className="bg-gray-900 hover:bg-gray-800 text-yellow-500 px-6 sm:px-8 py-3 text-base sm:text-lg bethesda-title border border-yellow-600/30 transition-all">
+              <a 
+                href="#cronologia" 
+                className="bg-gray-900 hover:bg-gray-800 text-yellow-500 px-6 sm:px-8 py-3 text-base sm:text-lg bethesda-title border border-yellow-600/30 transition-all"
+                aria-label="Ir para linha do tempo cronológica"
+              >
                 CRONOLOGIA
               </a>
             </div>
@@ -41,12 +55,19 @@ export default function Home() {
         </section>
 
         {/* Timeline Section */}
-        <section id="cronologia" className="py-12 sm:py-16 md:py-24 bg-gray-950">
+        <section 
+          id="cronologia" 
+          className="py-12 sm:py-16 md:py-24 bg-gray-950"
+          aria-labelledby="timeline-title"
+        >
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl bethesda-title text-yellow-500 mb-8 sm:mb-12 text-center">
+            <h2 
+              id="timeline-title"
+              className="text-3xl sm:text-4xl md:text-5xl bethesda-title text-yellow-500 mb-8 sm:mb-12 text-center"
+            >
               LINHA DO TEMPO
             </h2>
-            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
+            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6" role="list">
               {timeline.map((item, idx) => (
                 <div key={idx} className="bg-gray-900/80 border border-yellow-600/30 p-4 sm:p-6 card-hover">
                   <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
