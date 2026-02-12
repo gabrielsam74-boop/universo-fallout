@@ -107,22 +107,22 @@ export default function Home() {
                           {game.title}
                         </h3>
                         <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">{game.shortDesc}</p>
-                        <div className="flex items-center justify-between">
-                          <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
-                            LER HISTÓRIA COMPLETA →
+                        <div className="text-yellow-500 bethesda-title text-xs sm:text-sm mb-3">
+                          LER HISTÓRIA COMPLETA →
+                        </div>
+                        <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+                          <div className="flex items-center gap-2">
+                            <span className="text-yellow-500 text-sm">⭐</span>
+                            <span className="text-yellow-400 bethesda-title text-base">{game.rating}</span>
+                            <span className="text-gray-500 text-xs">/100</span>
+                          </div>
+                          <div onClick={(e) => e.stopPropagation()}>
+                            <LikeButton pageId={`/game/${game.id}`} />
                           </div>
                         </div>
                       </div>
                     </div>
                   </Link>
-                  <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center gap-2 bg-black/80 px-3 py-1 rounded border border-yellow-600/50">
-                      <span className="text-yellow-500 bethesda-title text-sm">⭐</span>
-                      <span className="text-yellow-400 bethesda-title text-lg">{game.rating}</span>
-                      <span className="text-gray-500 text-xs">/100</span>
-                    </div>
-                    <LikeButton pageId={`/game/${game.id}`} />
-                  </div>
                 </div>
               ))}
             </div>
@@ -163,20 +163,22 @@ export default function Home() {
                       <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">
                         Lucy sai do Vault 33 em busca de seu pai na superfície devastada.
                       </p>
-                      <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
+                      <div className="text-yellow-500 bethesda-title text-xs sm:text-sm mb-3">
                         VER DETALHES COMPLETOS →
+                      </div>
+                      <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+                        <div className="flex items-center gap-2">
+                          <span className="text-yellow-500 text-sm">⭐</span>
+                          <span className="text-yellow-400 bethesda-title text-base">94</span>
+                          <span className="text-gray-500 text-xs">/100</span>
+                        </div>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <LikeButton pageId="/serie" />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </Link>
-                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-                  <div className="flex items-center gap-2 bg-black/80 px-3 py-1 rounded border border-yellow-600/50">
-                    <span className="text-yellow-500 bethesda-title text-sm">⭐</span>
-                    <span className="text-yellow-400 bethesda-title text-lg">94</span>
-                    <span className="text-gray-500 text-xs">/100</span>
-                  </div>
-                  <LikeButton pageId="/serie" />
-                </div>
               </div>
             </div>
           </div>
