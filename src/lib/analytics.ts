@@ -5,7 +5,13 @@ export interface PageStats {
   lastVisit: string;
 }
 
+export interface LikeStats {
+  likes: number;
+  dislikes: number;
+}
+
 const STORAGE_KEY = 'fallout_analytics';
+const LIKES_KEY = 'fallout_likes';
 
 // Inicializa ou recupera dados do localStorage
 export function getLocalStats(): Record<string, PageStats> {
@@ -32,6 +38,67 @@ function saveLocalStats(stats: Record<string, PageStats>) {
   } catch (error) {
     console.error('Erro ao salvar analytics:', error);
   }
+}
+
+// Obtém likes de uma página
+export function getLikes(page: string): LikeStats {
+  if (typeof window === 'undefined') return { likes: 0, dislikes: 0 };
+  
+  try {
+    const stored = localStorage.getItem(LIKES_KEY);
+    if (stored) {
+      const allLikes = JSON.parse(stored);
+      return allLikes[page] || { likes: 0, dislikes: 0 };
+    }
+  } catch (error) {
+    console.error('Erro ao ler likes:', error);
+  }
+  
+  return { likes: 0, dislikes: 0 };
+}
+
+// Salva likes de uma página
+function saveLikes(page: string, stats: LikeStats) {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    const stored = localStorage.getItem(LIKES_KEY);
+    const allLikes = stored ? JSON.parse(stored) : {};
+    allLikes[page] = stats;
+    localStorage.setItem(LIKES_KEY, JSON.stringify(allLikes));
+  } catch (error) {
+    console.error('Erro ao salvar likes:', error);
+  }
+}
+
+// Adiciona um like
+export function addLike(page: string) {
+  const stats = getLikes(page);
+  stats.likes += 1;
+  saveLikes(page, stats);
+}
+
+// Adiciona um dislike
+export function addDislike(page: string) {
+  const stats = getLikes(page);
+  stats.dislikes += 1;
+  saveLikes(page, stats);
+}
+
+// Obtém todos os likes
+export function getAllLikes(): Record<string, LikeStats> {
+  if (typeof window === 'undefined') return {};
+  
+  try {
+    const stored = localStorage.getItem(LIKES_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error('Erro ao ler todos os likes:', error);
+  }
+  
+  return {};
 }
 
 // Registra uma visualização de página

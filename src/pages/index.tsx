@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Header from '@/components/Header';
+import LikeButton from '@/components/LikeButton';
 import { falloutGames, timeline } from '@/lib/fallout-games';
 
 export default function Home() {
@@ -77,41 +78,47 @@ export default function Home() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
               {falloutGames.map(game => (
-                <Link 
-                  key={game.id} 
-                  href={`/game/${game.id}`}
-                  className="group"
-                >
-                  <div className="terminal-border bg-gray-900 overflow-hidden card-hover h-full crt-effect">
-                    <div 
-                      className="h-40 sm:h-48 relative bg-black bg-cover bg-center"
-                      style={{ 
-                        backgroundImage: game.image ? `url(${game.image})` : 'none'
-                      }}
-                    >
-                      {!game.image && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-5xl sm:text-6xl opacity-30 text-yellow-500">☢️</div>
+                <div key={game.id} className="group relative">
+                  <Link 
+                    href={`/game/${game.id}`}
+                    className="block"
+                  >
+                    <div className="terminal-border bg-gray-900 overflow-hidden card-hover h-full crt-effect">
+                      <div 
+                        className="h-40 sm:h-48 relative bg-black bg-cover bg-center"
+                        style={{ 
+                          backgroundImage: game.image ? `url(${game.image})` : 'none'
+                        }}
+                      >
+                        {!game.image && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="text-5xl sm:text-6xl opacity-30 text-yellow-500">☢️</div>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                        <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                          <div className="text-xs bethesda-title text-yellow-500 mb-1">
+                            Lançamento: {game.year} • Cronologia: {game.chronology}
+                          </div>
                         </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                      <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
-                        <div className="text-xs bethesda-title text-yellow-500 mb-1">
-                          Lançamento: {game.year} • Cronologia: {game.chronology}
+                      </div>
+                      <div className="p-4 sm:p-6 bg-gray-900">
+                        <h3 className="text-xl sm:text-2xl bethesda-title text-yellow-400 mb-2 sm:mb-3 group-hover:text-yellow-300 transition">
+                          {game.title}
+                        </h3>
+                        <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">{game.shortDesc}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
+                            LER HISTÓRIA COMPLETA →
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="p-4 sm:p-6 bg-gray-900">
-                      <h3 className="text-xl sm:text-2xl bethesda-title text-yellow-400 mb-2 sm:mb-3 group-hover:text-yellow-300 transition">
-                        {game.title}
-                      </h3>
-                      <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">{game.shortDesc}</p>
-                      <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
-                        LER HISTÓRIA COMPLETA →
-                      </div>
-                    </div>
+                  </Link>
+                  <div className="absolute bottom-4 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+                    <LikeButton pageId={`/game/${game.id}`} />
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
@@ -128,34 +135,39 @@ export default function Home() {
             </p>
 
             <div className="max-w-md mx-auto">
-              <Link href="/serie" className="group block">
-                <div className="terminal-border bg-gray-900 overflow-hidden card-hover h-full crt-effect">
-                  <div 
-                    className="h-40 sm:h-48 relative bg-black bg-cover bg-center"
-                    style={{ 
-                      backgroundImage: 'url(/images/fallout-serie.jpg)'
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
-                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
-                      <div className="text-xs bethesda-title text-yellow-500 mb-1">
-                        Lançamento: 2024 • Cronologia: 2296
+              <div className="relative">
+                <Link href="/serie" className="group block">
+                  <div className="terminal-border bg-gray-900 overflow-hidden card-hover h-full crt-effect">
+                    <div 
+                      className="h-40 sm:h-48 relative bg-black bg-cover bg-center"
+                      style={{ 
+                        backgroundImage: 'url(/images/fallout-serie.jpg)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                      <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                        <div className="text-xs bethesda-title text-yellow-500 mb-1">
+                          Lançamento: 2024 • Cronologia: 2296
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4 sm:p-6 bg-gray-900">
+                      <h3 className="text-xl sm:text-2xl bethesda-title text-yellow-400 mb-2 sm:mb-3 group-hover:text-yellow-300 transition">
+                        FALLOUT (SÉRIE)
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">
+                        Lucy sai do Vault 33 em busca de seu pai na superfície devastada.
+                      </p>
+                      <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
+                        VER DETALHES COMPLETOS →
                       </div>
                     </div>
                   </div>
-                  <div className="p-4 sm:p-6 bg-gray-900">
-                    <h3 className="text-xl sm:text-2xl bethesda-title text-yellow-400 mb-2 sm:mb-3 group-hover:text-yellow-300 transition">
-                      FALLOUT (SÉRIE)
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">
-                      Lucy sai do Vault 33 em busca de seu pai na superfície devastada.
-                    </p>
-                    <div className="text-yellow-500 bethesda-title text-xs sm:text-sm">
-                      VER DETALHES COMPLETOS →
-                    </div>
-                  </div>
+                </Link>
+                <div className="absolute bottom-4 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+                  <LikeButton pageId="/serie" />
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
         </section>
