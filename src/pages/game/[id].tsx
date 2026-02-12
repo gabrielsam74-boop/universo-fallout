@@ -3,18 +3,20 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import Header from '@/components/Header';
-import { falloutGames } from '@/lib/fallout-games';
-import { vaultsByGame } from '@/lib/vaults-data';
-import { factions, Faction } from '@/lib/factions-data';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import ErrorMessage from '@/components/ErrorMessage';
+import { useGame, useVaultsByGame, useFactionsByGame } from '@/hooks/useFalloutData';
 import { objectives, Objective } from '@/lib/objectives-data';
+import type { Faction } from '@/lib/factions-data';
 
 export default function GamePage() {
   const router = useRouter();
   const { id } = router.query;
   
-  const game = falloutGames.find(g => g.id === id);
-  const gameVaults = id ? vaultsByGame[id as keyof typeof vaultsByGame] || [] : [];
-  const gameFactions = id ? factions[id as string] || [] : [];
+  // Usar hooks para buscar dados
+  const { game, loading: gameLoading, error: gameError } = useGame(id as string);
+  const { vaults: gameVaults, loading: vaultsLoading } = useVaultsByGame(id as string);
+  const { factions: gameFactions, loading: factionsLoading } = useFactionsByGame(id as string);
   const gameObjectives = id ? objectives[id as string] || [] : [];
 
   const [selectedFaction, setSelectedFaction] = useState<Faction | null>(null);
@@ -22,6 +24,25 @@ export default function GamePage() {
   const [showStorySpoilers, setShowStorySpoilers] = useState(false);
   const [showObjectivesSpoilers, setShowObjectivesSpoilers] = useState(false);
   const [showVaultsSpoilers, setShowVaultsSpoilers] = useState(false);
+
+  // Estados de loading e erro
+  if (gameLoading || vaultsLoading || factionsLoading) {
+    return (
+      <div className="min-h-screen bg-black">
+        <Header />
+        <LoadingSpinner message="Carregando dados do jogo..." />
+      </div>
+    );
+  }
+
+  if (gameError) {
+    return (
+      <div className="min-h-screen bg-black">
+        <Header />
+        <ErrorMessage error={gameError} retry={() => router.reload()} />
+      </div>
+    );
+  }
 
   if (!game) {
     return (

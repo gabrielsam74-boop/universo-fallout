@@ -1,0 +1,83 @@
+// ============================================
+// DASHBOARD PAGE - Painel de controle
+// ============================================
+
+.dashboard-page {
+  padding: $spacing-xl 0;
+  
+  // Header do Dashboard
+  .dashboard-header {
+    margin-bottom: $spacing-2xl;
+    
+    h1 {
+      font-size: $font-size-4xl;
+      margin-bottom: $spacing-md;
+      @include glow($color-primary, 0.8);
+    }
+    
+    p {
+      color: $color-gray-400;
+      font-size: $font-size-lg;
+    }
+  }
+  
+  // Métricas
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  // Seção de Posts
+  .posts-section {
+    margin-bottom: $spacing-2xl;
+    
+    h2 {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-xl;
+      @include glow($color-primary, 0.6);
+    }
+  }
+  
+  .posts-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  // Estados de loading
+  .loading-state {
+    @include flex-center;
+    min-height: 400px;
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid $color-gray-700;
+      border-top-color: $color-primary;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+}

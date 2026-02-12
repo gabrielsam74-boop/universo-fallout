@@ -1,50 +1,60 @@
 // ============================================
-// MAIN SCSS - Padrão 7-1
+// MAIN SCSS - Arquitetura 7-1
 // ============================================
+// 7 pastas + 1 arquivo principal
+// Ordem de importação é importante!
 
-// 1. Abstracts (Variáveis e Mixins)
+// 1️⃣ ABSTRACTS - Variáveis e Mixins (sem output CSS)
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 
-// 2. Base (Reset e Tipografia)
+// 2️⃣ VENDORS - CSS de terceiros
+@import 'vendors/normalize';
+
+// 3️⃣ BASE - Estilos base e reset
 @import 'base/reset';
 @import 'base/typography';
 
-// 3. Layout (Header, Footer, Sections)
+// 4️⃣ LAYOUT - Estrutura macro (header, footer, grid)
 @import 'layout/header';
+@import 'layout/footer';
 @import 'layout/sections';
+@import 'layout/grid';
 
-// 4. Components (Botões, Cards, etc)
+// 5️⃣ COMPONENTS - Componentes reutilizáveis
 @import 'components/buttons';
 @import 'components/cards';
 
-// 5. Tailwind (mantém compatibilidade)
+// 6️⃣ PAGES - Estilos específicos de páginas
+@import 'pages/home';
+@import 'pages/dashboard';
+@import 'pages/serie';
+@import 'pages/game-detail';
+
+// 7️⃣ THEMES - Temas (dark mode, etc)
+@import 'themes/dark';
+
+// 🎨 TAILWIND - Mantém compatibilidade com Tailwind
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-// 6. Utilities (Classes auxiliares)
-.container {
-  padding-left: $spacing-lg;
-  padding-right: $spacing-lg;
-  
-  @include respond-to('sm') {
-    padding-left: $spacing-xl;
-    padding-right: $spacing-xl;
-  }
-  
-  @include respond-to('lg') {
-    padding-left: $spacing-2xl;
-    padding-right: $spacing-2xl;
-  }
-}
-
+// 🛠️ UTILITIES - Classes auxiliares globais
 .fade-in {
   animation: fadeIn 1s ease-in;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 }
 
 .glow-yellow {
   @include glow($color-primary, 0.8);
+}
+
+.glow-green {
+  @include glow($color-secondary, 0.6);
 }
 
 .crt-effect {
@@ -63,5 +73,20 @@
   
   * {
     max-width: 100%;
+  }
+}
+
+// Acessibilidade - Skip to content
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: $color-primary;
+  color: $color-dark;
+  padding: $spacing-sm $spacing-md;
+  z-index: $z-tooltip;
+  
+  &:focus {
+    top: 0;
   }
 }

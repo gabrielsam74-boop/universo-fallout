@@ -1,133 +1,187 @@
-# 📁 Arquitetura SASS - Padrão 7-1
+# 🎨 Estrutura de Estilos - Arquitetura SASS 7-1
 
-Esta estrutura segue o padrão **7-1** da indústria, usado por empresas como Airbnb, GitHub e Spotify.
+Este projeto usa a arquitetura **SASS 7-1**, um padrão profissional de organização de estilos usado por empresas como Airbnb, GitHub e Spotify.
 
-## 📂 Estrutura de Pastas
+## 📁 Estrutura Completa
 
 ```
 styles/
+├── 1️⃣ abstracts/          # Variáveis e mixins (sem output CSS)
+│   ├── _variables.scss   # Cores, espaçamentos, fontes
+│   └── _mixins.scss      # Funções reutilizáveis
 │
-├── abstracts/          # Variáveis, mixins, funções
-│   ├── _variables.scss # Cores, espaçamentos, breakpoints
-│   └── _mixins.scss    # Mixins reutilizáveis
+├── 2️⃣ vendors/            # CSS de terceiros
+│   └── _normalize.scss   # Reset CSS
 │
-├── base/               # Estilos base
-│   ├── _reset.scss     # Reset CSS
-│   └── _typography.scss # Tipografia global
+├── 3️⃣ base/               # Estilos base
+│   ├── _reset.scss       # Reset customizado
+│   └── _typography.scss  # Tipografia global
 │
-├── components/         # Componentes reutilizáveis
-│   ├── _buttons.scss   # Estilos de botões
-│   └── _cards.scss     # Estilos de cards
+├── 4️⃣ layout/             # Layout macro
+│   ├── _header.scss      # Cabeçalho
+│   ├── _footer.scss      # Rodapé
+│   ├── _sections.scss    # Seções
+│   └── _grid.scss        # Sistema de grid
 │
-├── layout/             # Layout macro
-│   ├── _header.scss    # Header/Navegação
-│   └── _sections.scss  # Seções e Hero
+├── 5️⃣ components/         # Componentes reutilizáveis
+│   ├── _buttons.scss     # Botões
+│   └── _cards.scss       # Cards
 │
-├── pages/              # Estilos específicos de páginas
-│   └── (vazio por enquanto)
+├── 6️⃣ pages/              # Estilos específicos de páginas
+│   ├── _home.scss        # Página inicial
+│   ├── _dashboard.scss   # Dashboard
+│   ├── _serie.scss       # Página da série
+│   └── _game-detail.scss # Detalhes do jogo
 │
-├── themes/             # Temas alternativos
-│   └── (vazio por enquanto)
+├── 7️⃣ themes/             # Temas
+│   └── _dark.scss        # Tema escuro (padrão)
 │
-├── vendors/            # CSS de terceiros
-│   └── (vazio por enquanto)
-│
-└── main.scss           # Arquivo principal que importa tudo
+└── main.scss             # Arquivo principal (importa tudo)
 ```
 
-## 🎯 Por que isso é Profissional?
+## 🎯 O que é o Padrão 7-1?
 
-### 1. **Manutenibilidade**
-- Cada arquivo tem uma responsabilidade única
-- Fácil encontrar e modificar estilos
-- Trabalho em equipe sem conflitos
+- **7 pastas** para organizar estilos por tipo e responsabilidade
+- **1 arquivo** (`main.scss`) que importa tudo na ordem correta
+- **Escalável** - fácil de adicionar novos arquivos
+- **Manutenível** - cada arquivo tem uma responsabilidade clara
 
-### 2. **Escalabilidade**
-- Adicionar novos componentes é simples
-- Variáveis centralizadas facilitam mudanças globais
-- Mixins evitam repetição de código
+## 📝 Regras de Uso
 
-### 3. **Performance**
-- SASS compila tudo em um único CSS otimizado
-- Variáveis permitem tree-shaking
-- Código mais limpo = arquivo menor
-
-## 🚀 Como Usar
-
-### Importar no seu componente:
-```tsx
-import '@/styles/main.scss'
-```
-
-### Usar classes:
-```tsx
-<button className="btn btn-primary">
-  Clique aqui
-</button>
-
-<div className="card card-crt">
-  <div className="card-header">
-    <h3>Título</h3>
-  </div>
-  <div className="card-body">
-    Conteúdo
-  </div>
-</div>
-```
-
-### Usar variáveis em componentes:
+### ✅ FAÇA:
 ```scss
-.meu-componente {
-  color: $color-primary;
-  padding: $spacing-lg;
-  @include terminal-border;
-}
-```
+// Importe apenas o main.scss
+@import 'styles/main.scss';
 
-## 📝 Convenções
+// Use variáveis
+color: $color-primary;
 
-- **Variáveis**: `$color-primary`, `$spacing-md`
-- **Mixins**: `@include respond-to('md')`
-- **Classes**: `.btn`, `.card`, `.hero`
-- **BEM**: `.card__header`, `.card--large`
-
-## 🎨 Variáveis Principais
-
-```scss
-// Cores
-$color-primary: #FDB813;
-$color-secondary: #22c55e;
-$color-dark: #000000;
-
-// Espaçamentos
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-
-// Breakpoints
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-```
-
-## 🔧 Mixins Úteis
-
-```scss
-// Responsividade
+// Use mixins
 @include respond-to('md') {
-  font-size: 2rem;
+  font-size: $font-size-xl;
 }
-
-// Efeito CRT
-@include crt-effect;
-
-// Brilho
-@include glow($color-primary, 0.6);
-
-// Borda terminal
-@include terminal-border;
 ```
 
----
+### ❌ NÃO FAÇA:
+```scss
+// Nunca importe arquivos individuais
+@import 'styles/components/_buttons.scss'; // ❌
 
-**Nota**: Este é um padrão profissional usado em empresas reais. Mostra que você sabe trabalhar em equipe e escrever código escalável.
+// Nunca use valores hardcoded
+color: #FDB813; // ❌ Use $color-primary
+
+// Nunca duplique media queries
+@media (min-width: 768px) { } // ❌ Use @include respond-to('md')
+```
+
+## 🔧 Variáveis Disponíveis
+
+### Cores
+```scss
+$color-primary: #FDB813;      // Amarelo Fallout
+$color-secondary: #22c55e;    // Verde Pip-Boy
+$color-danger: #ef4444;       // Vermelho
+$color-gray-900: #111827;     // Cinza escuro
+```
+
+### Espaçamentos
+```scss
+$spacing-xs: 0.25rem;   // 4px
+$spacing-sm: 0.5rem;    // 8px
+$spacing-md: 1rem;      // 16px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;      // 32px
+$spacing-2xl: 3rem;     // 48px
+$spacing-3xl: 4rem;     // 64px
+```
+
+### Breakpoints
+```scss
+$breakpoint-sm: 640px;   // Tablet
+$breakpoint-md: 768px;   // Tablet landscape
+$breakpoint-lg: 1024px;  // Desktop
+$breakpoint-xl: 1280px;  // Desktop large
+```
+
+## 🎨 Mixins Disponíveis
+
+### Responsividade
+```scss
+@include respond-to('sm') { }  // min-width: 640px
+@include respond-to('md') { }  // min-width: 768px
+@include respond-to('lg') { }  // min-width: 1024px
+@include respond-to('xl') { }  // min-width: 1280px
+```
+
+### Efeitos Fallout
+```scss
+@include glow($color-primary, 0.8);  // Brilho amarelo
+@include terminal-border();          // Borda estilo terminal
+@include crt-effect();               // Efeito de tela CRT
+```
+
+### Utilitários
+```scss
+@include flex-center;              // Centralizar com flexbox
+@include center-absolute;          // Centralizar absoluto
+@include smooth-transition(color); // Transição suave
+@include truncate;                 // Truncar texto
+```
+
+## 📦 Como Adicionar Novos Estilos
+
+### 1. Novo Componente
+```scss
+// Criar: src/styles/components/_novo-componente.scss
+.novo-componente {
+  padding: $spacing-md;
+  color: $color-primary;
+}
+
+// Adicionar em main.scss:
+@import 'components/novo-componente';
+```
+
+### 2. Nova Página
+```scss
+// Criar: src/styles/pages/_nova-pagina.scss
+.nova-pagina {
+  padding: $spacing-xl 0;
+}
+
+// Adicionar em main.scss:
+@import 'pages/nova-pagina';
+```
+
+### 3. Nova Variável
+```scss
+// Adicionar em: src/styles/abstracts/_variables.scss
+$color-custom: #123456;
+```
+
+## 🎓 Ordem de Importação
+
+A ordem no `main.scss` é **crucial**:
+
+1. **Abstracts** - Variáveis e mixins (sem output CSS)
+2. **Vendors** - CSS de terceiros
+3. **Base** - Reset e tipografia
+4. **Layout** - Estrutura macro
+5. **Components** - Componentes reutilizáveis
+6. **Pages** - Estilos de páginas específicas
+7. **Themes** - Temas e variações
+
+## 🚀 Benefícios
+
+✅ **Organização** - Cada arquivo tem uma responsabilidade clara  
+✅ **Escalabilidade** - Fácil adicionar novos estilos  
+✅ **Manutenibilidade** - Fácil encontrar e modificar estilos  
+✅ **Reutilização** - Variáveis e mixins evitam duplicação  
+✅ **Performance** - Um único arquivo CSS compilado  
+✅ **Profissionalismo** - Padrão usado pela indústria  
+
+## 📚 Referências
+
+- [SASS Guidelines](https://sass-guidelin.es/#architecture)
+- [The 7-1 Pattern](https://sass-guidelin.es/#the-7-1-pattern)
+- [Airbnb CSS/SASS Styleguide](https://github.com/airbnb/css)

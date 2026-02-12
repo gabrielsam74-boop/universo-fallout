@@ -1,0 +1,63 @@
+// ============================================
+// FOOTER - Rodapé
+// ============================================
+
+.footer {
+  background: rgba($color-gray-900, $opacity-high);
+  padding: $spacing-2xl 0;
+  margin-top: $spacing-3xl;
+  @include terminal-border($color-primary);
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  
+  .footer-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 $spacing-lg;
+    text-align: center;
+    
+    @include respond-to('md') {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+  }
+  
+  .footer-logo {
+    font-size: $font-size-2xl;
+    color: $color-primary;
+    margin-bottom: $spacing-lg;
+    @include glow($color-primary, 0.6);
+    
+    @include respond-to('md') {
+      margin-bottom: 0;
+    }
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: $spacing-xl;
+    justify-content: center;
+    margin-bottom: $spacing-lg;
+    
+    @include respond-to('md') {
+      margin-bottom: 0;
+    }
+    
+    a {
+      color: $color-gray-400;
+      @include smooth-transition(color);
+      
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+  
+  .footer-copyright {
+    color: $color-gray-600;
+    font-size: $font-size-sm;
+  }
+}

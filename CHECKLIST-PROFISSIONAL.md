@@ -7,14 +7,14 @@ Use este checklist para transformar qualquer projeto em nível profissional.
 ## 📁 1. Organização de Código
 
 ### SASS/CSS
-- [ ] Criar estrutura 7-1
-- [ ] Separar variáveis (`_variables.scss`)
-- [ ] Criar mixins reutilizáveis (`_mixins.scss`)
-- [ ] Separar componentes (`_buttons.scss`, `_cards.scss`)
-- [ ] Documentar padrões no README
-- [ ] Remover código duplicado (DRY)
-- [ ] Usar variáveis para cores/espaçamentos
-- [ ] Implementar breakpoints responsivos
+- [x] Criar estrutura 7-1
+- [x] Separar variáveis (`_variables.scss`)
+- [x] Criar mixins reutilizáveis (`_mixins.scss`)
+- [x] Separar componentes (`_buttons.scss`, `_cards.scss`)
+- [x] Documentar padrões no README
+- [x] Remover código duplicado (DRY)
+- [x] Usar variáveis para cores/espaçamentos
+- [x] Implementar breakpoints responsivos
 
 ### JavaScript/TypeScript
 - [ ] Separar lógica de apresentação
@@ -100,12 +100,12 @@ src/
 ## 🔌 3. Dados e APIs
 
 ### Separação de Dados
-- [ ] Mover dados para arquivos JSON
-- [ ] Criar camada de serviços (API layer)
-- [ ] Criar hooks customizados para data fetching
-- [ ] Implementar estados de loading
-- [ ] Implementar tratamento de erros
-- [ ] Adicionar cache (SWR ou React Query)
+- [x] Mover dados para arquivos JSON
+- [x] Criar camada de serviços (API layer)
+- [x] Criar hooks customizados para data fetching
+- [x] Implementar estados de loading
+- [x] Implementar tratamento de erros
+- [x] Adicionar cache (SWR ou React Query)
 
 ### Estrutura de Serviços
 ```typescript
@@ -130,11 +130,11 @@ export default function Games() {
 ```
 
 ### API Routes (Next.js)
-- [ ] Criar rotas em `pages/api/`
-- [ ] Implementar cache headers
-- [ ] Validar parâmetros
-- [ ] Retornar erros apropriados (404, 500)
-- [ ] Documentar endpoints
+- [x] Criar rotas em `pages/api/`
+- [x] Implementar cache headers
+- [x] Validar parâmetros
+- [x] Retornar erros apropriados (404, 500)
+- [x] Documentar endpoints
 
 ---
 

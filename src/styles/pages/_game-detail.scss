@@ -1,0 +1,110 @@
+// ============================================
+// GAME DETAIL PAGE - Detalhes do jogo
+// ============================================
+
+.game-detail-page {
+  padding: $spacing-xl 0;
+  
+  // Hero do jogo
+  .game-hero {
+    position: relative;
+    margin-bottom: $spacing-2xl;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    @include terminal-border($color-primary);
+    
+    .hero-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      
+      @include respond-to('md') {
+        height: 400px;
+      }
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: $spacing-xl;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      
+      h1 {
+        font-size: $font-size-4xl;
+        margin-bottom: $spacing-sm;
+        @include glow($color-primary, 0.8);
+      }
+      
+      .game-meta {
+        display: flex;
+        gap: $spacing-lg;
+        font-size: $font-size-lg;
+        color: $color-gray-400;
+      }
+    }
+  }
+  
+  // Conteúdo do jogo
+  .game-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2xl;
+    
+    @include respond-to('lg') {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  
+  // Seções de informação
+  .info-section {
+    background: rgba($color-gray-900, $opacity-medium);
+    padding: $spacing-xl;
+    border-radius: $border-radius-md;
+    @include terminal-border($color-primary);
+    
+    h2 {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-lg;
+      @include glow($color-primary, 0.6);
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        padding: $spacing-sm 0;
+        border-bottom: 1px solid $color-gray-800;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        &::before {
+          content: '▸ ';
+          color: $color-primary;
+          margin-right: $spacing-sm;
+        }
+      }
+    }
+  }
+  
+  // Sidebar
+  .game-sidebar {
+    .sidebar-card {
+      background: rgba($color-gray-900, $opacity-medium);
+      padding: $spacing-lg;
+      border-radius: $border-radius-md;
+      @include terminal-border($color-secondary);
+      margin-bottom: $spacing-lg;
+      
+      h3 {
+        font-size: $font-size-xl;
+        margin-bottom: $spacing-md;
+        color: $color-secondary;
+      }
+    }
+  }
+}

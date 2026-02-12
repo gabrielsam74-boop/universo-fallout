@@ -1,0 +1,60 @@
+// ============================================
+// DARK THEME - Tema escuro (padrão Fallout)
+// ============================================
+
+// O tema escuro é o padrão do projeto Fallout
+// Este arquivo pode ser usado para variações ou modo claro no futuro
+
+:root {
+  // Cores do tema escuro
+  --bg-primary: #{$color-dark};
+  --bg-secondary: #{$color-gray-900};
+  --bg-tertiary: #{$color-gray-800};
+  
+  --text-primary: #ffffff;
+  --text-secondary: #{$color-gray-400};
+  --text-muted: #{$color-gray-600};
+  
+  --accent-primary: #{$color-primary};
+  --accent-secondary: #{$color-secondary};
+  --accent-danger: #{$color-danger};
+  
+  // Efeitos
+  --glow-primary: #{$shadow-glow-yellow};
+  --glow-secondary: #{$shadow-glow-green};
+}
+
+// Tema escuro aplicado ao body
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+// Scrollbar customizada (tema Fallout)
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-primary;
+  border-radius: $border-radius-sm;
+  
+  &:hover {
+    background: lighten($color-primary, 10%);
+  }
+}
+
+// Seleção de texto
+::selection {
+  background: rgba($color-primary, 0.3);
+  color: $color-primary;
+}
+
+::-moz-selection {
+  background: rgba($color-primary, 0.3);
+  color: $color-primary;
+}
