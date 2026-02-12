@@ -2,10 +2,12 @@
 
 Uma enciclopédia completa e interativa do universo Fallout, com informações detalhadas sobre todos os jogos, vaults, facções e a série de TV. Projeto desenvolvido com **arquitetura profissional** seguindo padrões da indústria.
 
-[![Deploy](https://img.shields.io/badge/deploy-vercel-black)](https://vercel.com)
+[![Deploy](https://img.shields.io/badge/deploy-vercel-black)](https://universo-fallout.vercel.app)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![WCAG](https://img.shields.io/badge/WCAG-2.1%20AA-green)](https://www.w3.org/WAI/WCAG21/quickref/)
+
+**🌐 [Ver Site Online](https://universo-fallout.vercel.app)**
 
 ## ✨ Características
 
