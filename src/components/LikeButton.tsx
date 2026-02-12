@@ -24,29 +24,81 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
   }, [pageId]);
 
   const handleLike = () => {
-    if (userVote === 'like') return; // Já deu like
+    if (userVote === 'like') {
+      // Anula o voto de like
+      const currentStats = getLikes(pageId);
+      if (currentStats.likes > 0) {
+        currentStats.likes -= 1;
+        localStorage.setItem('fallout_likes', JSON.stringify({
+          ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
+          [pageId]: currentStats
+        }));
+      }
+      setLikes(prev => Math.max(0, prev - 1));
+      setUserVote(null);
+      localStorage.removeItem(`vote_${pageId}`);
+      return;
+    }
     
     if (userVote === 'dislike') {
       // Remove dislike e adiciona like
-      setDislikes(prev => prev - 1);
+      const currentStats = getLikes(pageId);
+      if (currentStats.dislikes > 0) {
+        currentStats.dislikes -= 1;
+      }
+      currentStats.likes += 1;
+      localStorage.setItem('fallout_likes', JSON.stringify({
+        ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
+        [pageId]: currentStats
+      }));
+      setDislikes(prev => Math.max(0, prev - 1));
+      setLikes(prev => prev + 1);
+    } else {
+      // Adiciona like
+      addLike(pageId);
+      setLikes(prev => prev + 1);
     }
     
-    addLike(pageId);
-    setLikes(prev => prev + 1);
     setUserVote('like');
     localStorage.setItem(`vote_${pageId}`, 'like');
   };
 
   const handleDislike = () => {
-    if (userVote === 'dislike') return; // Já deu dislike
+    if (userVote === 'dislike') {
+      // Anula o voto de dislike
+      const currentStats = getLikes(pageId);
+      if (currentStats.dislikes > 0) {
+        currentStats.dislikes -= 1;
+        localStorage.setItem('fallout_likes', JSON.stringify({
+          ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
+          [pageId]: currentStats
+        }));
+      }
+      setDislikes(prev => Math.max(0, prev - 1));
+      setUserVote(null);
+      localStorage.removeItem(`vote_${pageId}`);
+      return;
+    }
     
     if (userVote === 'like') {
       // Remove like e adiciona dislike
-      setLikes(prev => prev - 1);
+      const currentStats = getLikes(pageId);
+      if (currentStats.likes > 0) {
+        currentStats.likes -= 1;
+      }
+      currentStats.dislikes += 1;
+      localStorage.setItem('fallout_likes', JSON.stringify({
+        ...JSON.parse(localStorage.getItem('fallout_likes') || '{}'),
+        [pageId]: currentStats
+      }));
+      setLikes(prev => Math.max(0, prev - 1));
+      setDislikes(prev => prev + 1);
+    } else {
+      // Adiciona dislike
+      addDislike(pageId);
+      setDislikes(prev => prev + 1);
     }
     
-    addDislike(pageId);
-    setDislikes(prev => prev + 1);
     setUserVote('dislike');
     localStorage.setItem(`vote_${pageId}`, 'dislike');
   };
@@ -60,7 +112,7 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
             ? 'bg-green-600 text-white'
             : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-green-400'
         }`}
-        title="Gostei"
+        title={userVote === 'like' ? 'Remover like' : 'Gostei'}
       >
         <span className="text-sm">👍</span>
         <span className="text-xs font-bold">{likes}</span>
@@ -73,7 +125,7 @@ export default function LikeButton({ pageId }: LikeButtonProps) {
             ? 'bg-red-600 text-white'
             : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-red-400'
         }`}
-        title="Não gostei"
+        title={userVote === 'dislike' ? 'Remover dislike' : 'Não gostei'}
       >
         <span className="text-sm">👎</span>
         <span className="text-xs font-bold">{dislikes}</span>
