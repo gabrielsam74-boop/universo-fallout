@@ -225,13 +225,13 @@ $breakpoint-xl: 1280px;  // Desktop large
 ## 🚀 8. Deploy
 
 ### Preparação
-- [ ] Variáveis de ambiente configuradas
-- [ ] Build sem erros
+- [x] Variáveis de ambiente configuradas
+- [x] Build sem erros
 - [ ] Testes passando
 - [ ] Lighthouse > 90
 
 ### Plataformas
-- [ ] Vercel (Next.js)
+- [x] Vercel (Next.js)
 - [ ] Netlify (Static)
 - [ ] GitHub Pages (Static)
 - [ ] AWS/Azure (Produção)
@@ -239,7 +239,7 @@ $breakpoint-xl: 1280px;  // Desktop large
 ### Pós-Deploy
 - [ ] Testar em produção
 - [ ] Configurar domínio customizado
-- [ ] Configurar HTTPS
+- [x] Configurar HTTPS
 - [ ] Configurar analytics
 - [ ] Configurar error tracking (Sentry)
 
