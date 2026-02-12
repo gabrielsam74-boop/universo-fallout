@@ -150,30 +150,34 @@ export default function SeriePage() {
                   <h3 className="text-2xl sm:text-3xl bethesda-title text-yellow-400">
                     TEMPORADA 2
                   </h3>
-                  <span className="px-3 sm:px-4 py-1 text-xs sm:text-sm bethesda-title bg-blue-600">
-                    Em Produção
+                  <span className="px-3 sm:px-4 py-1 text-xs sm:text-sm bethesda-title bg-green-600">
+                    Lançada
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
                   <div>
-                    <span className="text-gray-500 text-xs sm:text-sm">Previsão de Lançamento:</span>
-                    <p className="text-gray-300 text-sm sm:text-base">2025</p>
+                    <span className="text-gray-500 text-xs sm:text-sm">Lançamento:</span>
+                    <p className="text-gray-300 text-sm sm:text-base">Abril de 2025</p>
                   </div>
                   <div>
-                    <span className="text-gray-500 text-xs sm:text-sm">Status:</span>
-                    <p className="text-gray-300 text-sm sm:text-base">Confirmada e em produção</p>
+                    <span className="text-gray-500 text-xs sm:text-sm">Episódios:</span>
+                    <p className="text-gray-300 text-sm sm:text-base">8 episódios</p>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 text-xs sm:text-sm">Duração média:</span>
+                    <p className="text-gray-300 text-sm sm:text-base">50-65 minutos</p>
                   </div>
                 </div>
 
                 <div className="mb-6">
                   <h4 className="text-yellow-500 bethesda-title text-base sm:text-lg mb-2">
-                    O QUE ESPERAR:
+                    RESUMO:
                   </h4>
                   <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    A segunda temporada foi confirmada antes mesmo da estreia da primeira, demonstrando a confiança 
-                    da Amazon no projeto. Espera-se que continue explorando as consequências dos eventos da primeira 
-                    temporada e aprofunde os mistérios sobre a Vault-Tec Corporation e o verdadeiro propósito dos Vaults.
+                    A segunda temporada continua a jornada de Lucy, Maximus e The Ghoul enquanto exploram New Vegas 
+                    e descobrem mais segredos sobre a Vault-Tec Corporation. A temporada aprofunda as consequências 
+                    dos eventos da primeira temporada e revela mais sobre o passado pré-guerra de Cooper Howard.
                   </p>
                 </div>
 
@@ -182,10 +186,11 @@ export default function SeriePage() {
                     NOVIDADES:
                   </h4>
                   <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-                    <li>• Elenco principal confirmado para retornar</li>
-                    <li>• Possível exploração de novas regiões do wasteland</li>
-                    <li>• Mais conexões com os jogos da franquia</li>
-                    <li>• Aprofundamento na história pré-guerra</li>
+                    <li>• Exploração de New Vegas e seus cassinos</li>
+                    <li>• Mais revelações sobre a Vault-Tec</li>
+                    <li>• Desenvolvimento dos personagens principais</li>
+                    <li>• Novas facções e criaturas do wasteland</li>
+                    <li>• Conexões mais profundas com os jogos</li>
                   </ul>
                 </div>
               </div>
