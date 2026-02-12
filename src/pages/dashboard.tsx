@@ -43,23 +43,30 @@ export default function Dashboard() {
 
     const updateStats = () => {
       const localStats = getLocalStats();
-      const total = getTotalViews();
       
       // Mapeia as páginas com labels amigáveis
       const pageLabels: Record<string, string> = {
-        '/': 'Página Inicial',
         '/serie': 'Série TV',
-        '/dashboard': 'Estatísticas',
         ...Object.fromEntries(
           falloutGames.map(game => [`/game/${game.id}`, game.title])
         )
       };
 
-      const views: PageView[] = Object.entries(localStats).map(([page, data]) => ({
-        page,
-        views: data.views,
-        label: pageLabels[page] || page
-      }));
+      // Filtra apenas jogos e série de TV
+      const allowedPages = [
+        '/serie',
+        ...falloutGames.map(game => `/game/${game.id}`)
+      ];
+
+      const views: PageView[] = Object.entries(localStats)
+        .filter(([page]) => allowedPages.includes(page))
+        .map(([page, data]) => ({
+          page,
+          views: data.views,
+          label: pageLabels[page] || page
+        }));
+
+      const total = views.reduce((sum, pv) => sum + pv.views, 0);
 
       setPageViews(views.sort((a, b) => b.views - a.views));
       setTotalViews(total);
@@ -139,7 +146,7 @@ export default function Dashboard() {
             {/* Page Views */}
             <section className="mb-12 sm:mb-16">
               <h2 className="text-2xl sm:text-3xl bethesda-title text-yellow-500 mb-6">
-                PÁGINAS MAIS VISITADAS
+                CONTEÚDO MAIS VISITADO
               </h2>
               <div className="bg-gray-900/80 border border-yellow-600/30 p-6 sm:p-8 crt-effect">
                 {!isClient ? (
@@ -151,9 +158,17 @@ export default function Dashboard() {
                     <p className="text-yellow-500 bethesda-title text-xl mb-4">
                       📊 NENHUMA VISUALIZAÇÃO AINDA
                     </p>
-                    <p className="text-gray-400 text-sm sm:text-base">
-                      Navegue pelo site para começar a coletar estatísticas reais!
+                    <p className="text-gray-400 text-sm sm:text-base mb-4">
+                      Visite as páginas dos jogos ou da série para começar a coletar estatísticas!
                     </p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <Link href="/serie" className="text-yellow-500 hover:text-yellow-400 text-sm">
+                        Ver Série →
+                      </Link>
+                      <Link href="/#jogos" className="text-yellow-500 hover:text-yellow-400 text-sm">
+                        Ver Jogos →
+                      </Link>
+                    </div>
                   </div>
                 ) : (
                   <>
@@ -165,31 +180,37 @@ export default function Dashboard() {
                       <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-yellow-500 transition-all duration-500"
-                          style={{ width: `${Math.min((totalViews / 100) * 100, 100)}%` }}
+                          style={{ width: `${Math.min((totalViews / 50) * 100, 100)}%` }}
                         ></div>
                       </div>
                     </div>
 
                     <div className="space-y-4">
-                      {mostViewed.map((pv, idx) => (
-                        <div key={pv.page} className="flex items-center gap-4">
-                          <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
-                            #{idx + 1}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
-                              <span className="text-yellow-500 bethesda-title">{pv.views}</span>
+                      {mostViewed.length > 0 ? (
+                        mostViewed.map((pv, idx) => (
+                          <div key={pv.page} className="flex items-center gap-4">
+                            <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
+                              #{idx + 1}
                             </div>
-                            <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full bg-yellow-600 transition-all duration-500"
-                                style={{ width: `${(pv.views / maxViews) * 100}%` }}
-                              ></div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-center mb-1">
+                                <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
+                                <span className="text-yellow-500 bethesda-title">{pv.views}</span>
+                              </div>
+                              <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                                <div 
+                                  className="h-full bg-yellow-600 transition-all duration-500"
+                                  style={{ width: `${(pv.views / maxViews) * 100}%` }}
+                                ></div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-center text-gray-400 py-4">
+                          Nenhum jogo ou série visitado ainda
+                        </p>
+                      )}
                     </div>
                   </>
                 )}
