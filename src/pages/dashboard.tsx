@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import { falloutGames } from '@/lib/fallout-games';
+import { getLocalStats, getTotalViews, getTopPages } from '@/lib/analytics';
 
 interface PageView {
   page: string;
@@ -11,15 +12,9 @@ interface PageView {
 }
 
 export default function Dashboard() {
-  const [pageViews, setPageViews] = useState<PageView[]>([
-    { page: '/', views: 0, label: 'Página Inicial' },
-    { page: '/serie', views: 0, label: 'Série TV' },
-    ...falloutGames.map(game => ({
-      page: `/game/${game.id}`,
-      views: 0,
-      label: game.title
-    }))
-  ]);
+  const [pageViews, setPageViews] = useState<PageView[]>([]);
+  const [totalViews, setTotalViews] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   const [stats, setStats] = useState({
     totalGames: falloutGames.length,
@@ -29,7 +24,9 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    // Simula contagem de vaults e facções
+    setIsClient(true);
+    
+    // Carrega contagem de vaults e facções
     import('@/lib/vaults-data').then(module => {
       const vaultCount = Object.values(module.vaultsByGame).flat().length;
       setStats(prev => ({ ...prev, totalVaults: vaultCount }));
@@ -39,21 +36,45 @@ export default function Dashboard() {
       const factionCount = Object.values(module.factions).flat().length;
       setStats(prev => ({ ...prev, totalFactions: factionCount }));
     });
-
-    // Simula visualizações (em produção, isso viria do Vercel Analytics)
-    const simulateViews = () => {
-      setPageViews(prev => prev.map(pv => ({
-        ...pv,
-        views: pv.views + Math.floor(Math.random() * 5)
-      })));
-    };
-
-    const interval = setInterval(simulateViews, 3000);
-    return () => clearInterval(interval);
   }, []);
 
-  const totalViews = pageViews.reduce((sum, pv) => sum + pv.views, 0);
-  const mostViewed = [...pageViews].sort((a, b) => b.views - a.views).slice(0, 5);
+  useEffect(() => {
+    if (!isClient) return;
+
+    const updateStats = () => {
+      const localStats = getLocalStats();
+      const total = getTotalViews();
+      
+      // Mapeia as páginas com labels amigáveis
+      const pageLabels: Record<string, string> = {
+        '/': 'Página Inicial',
+        '/serie': 'Série TV',
+        '/dashboard': 'Estatísticas',
+        ...Object.fromEntries(
+          falloutGames.map(game => [`/game/${game.id}`, game.title])
+        )
+      };
+
+      const views: PageView[] = Object.entries(localStats).map(([page, data]) => ({
+        page,
+        views: data.views,
+        label: pageLabels[page] || page
+      }));
+
+      setPageViews(views.sort((a, b) => b.views - a.views));
+      setTotalViews(total);
+    };
+
+    // Atualiza imediatamente
+    updateStats();
+
+    // Atualiza a cada 2 segundos para refletir mudanças
+    const interval = setInterval(updateStats, 2000);
+    return () => clearInterval(interval);
+  }, [isClient]);
+
+  const mostViewed = pageViews.slice(0, 5);
+  const maxViews = Math.max(...pageViews.map(pv => pv.views), 1);
 
   return (
     <>
@@ -121,40 +142,57 @@ export default function Dashboard() {
                 PÁGINAS MAIS VISITADAS
               </h2>
               <div className="bg-gray-900/80 border border-yellow-600/30 p-6 sm:p-8 crt-effect">
-                <div className="mb-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-yellow-500 bethesda-title text-sm">TOTAL DE VISUALIZAÇÕES</span>
-                    <span className="text-yellow-500 bethesda-title text-2xl">{totalViews}</span>
+                {!isClient ? (
+                  <div className="text-center py-8 text-gray-400">
+                    Carregando estatísticas...
                   </div>
-                  <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-yellow-500 transition-all duration-500"
-                      style={{ width: `${Math.min((totalViews / 100) * 100, 100)}%` }}
-                    ></div>
+                ) : totalViews === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-yellow-500 bethesda-title text-xl mb-4">
+                      📊 NENHUMA VISUALIZAÇÃO AINDA
+                    </p>
+                    <p className="text-gray-400 text-sm sm:text-base">
+                      Navegue pelo site para começar a coletar estatísticas reais!
+                    </p>
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  {mostViewed.map((pv, idx) => (
-                    <div key={pv.page} className="flex items-center gap-4">
-                      <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
-                        #{idx + 1}
+                ) : (
+                  <>
+                    <div className="mb-6">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-yellow-500 bethesda-title text-sm">TOTAL DE VISUALIZAÇÕES</span>
+                        <span className="text-yellow-500 bethesda-title text-2xl">{totalViews}</span>
                       </div>
-                      <div className="flex-1">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
-                          <span className="text-yellow-500 bethesda-title">{pv.views}</span>
-                        </div>
-                        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-yellow-600 transition-all duration-500"
-                            style={{ width: `${(pv.views / Math.max(...pageViews.map(p => p.views))) * 100}%` }}
-                          ></div>
-                        </div>
+                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-yellow-500 transition-all duration-500"
+                          style={{ width: `${Math.min((totalViews / 100) * 100, 100)}%` }}
+                        ></div>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    <div className="space-y-4">
+                      {mostViewed.map((pv, idx) => (
+                        <div key={pv.page} className="flex items-center gap-4">
+                          <div className="text-yellow-500 bethesda-title text-xl min-w-[30px]">
+                            #{idx + 1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-gray-300 text-sm sm:text-base">{pv.label}</span>
+                              <span className="text-yellow-500 bethesda-title">{pv.views}</span>
+                            </div>
+                            <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-yellow-600 transition-all duration-500"
+                                style={{ width: `${(pv.views / maxViews) * 100}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </section>
 

@@ -3,13 +3,24 @@ import type { AppProps } from 'next/app';
 import { AudioProvider } from '@/contexts/AudioContext';
 import AudioPlayer from '@/components/AudioPlayer';
 import { Analytics } from '@vercel/analytics/react';
+import { usePageTracking } from '@/hooks/usePageTracking';
 
-export default function App({ Component, pageProps }: AppProps) {
+function AppContent({ Component, pageProps }: AppProps) {
+  usePageTracking();
+  
   return (
-    <AudioProvider>
+    <>
       <Component {...pageProps} />
       <AudioPlayer />
       <Analytics />
+    </>
+  );
+}
+
+export default function App(props: AppProps) {
+  return (
+    <AudioProvider>
+      <AppContent {...props} />
     </AudioProvider>
   );
 }
