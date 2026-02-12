@@ -1,0 +1,67 @@
+// ============================================
+// MAIN SCSS - Padrão 7-1
+// ============================================
+
+// 1. Abstracts (Variáveis e Mixins)
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// 2. Base (Reset e Tipografia)
+@import 'base/reset';
+@import 'base/typography';
+
+// 3. Layout (Header, Footer, Sections)
+@import 'layout/header';
+@import 'layout/sections';
+
+// 4. Components (Botões, Cards, etc)
+@import 'components/buttons';
+@import 'components/cards';
+
+// 5. Tailwind (mantém compatibilidade)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// 6. Utilities (Classes auxiliares)
+.container {
+  padding-left: $spacing-lg;
+  padding-right: $spacing-lg;
+  
+  @include respond-to('sm') {
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+  }
+  
+  @include respond-to('lg') {
+    padding-left: $spacing-2xl;
+    padding-right: $spacing-2xl;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+.glow-yellow {
+  @include glow($color-primary, 0.8);
+}
+
+.crt-effect {
+  @include crt-effect;
+}
+
+.terminal-border {
+  @include terminal-border;
+}
+
+// Prevenir scroll horizontal em mobile
+@media (max-width: $breakpoint-md) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  * {
+    max-width: 100%;
+  }
+}

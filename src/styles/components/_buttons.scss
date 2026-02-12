@@ -1,0 +1,62 @@
+// ============================================
+// BOTÕES
+// ============================================
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  font-family: $font-primary;
+  text-transform: uppercase;
+  @include smooth-transition;
+  min-height: 44px; // Acessibilidade - touch target
+  
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background-color: #d97706;
+  color: $color-dark;
+  
+  &:hover {
+    background-color: #b45309;
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.btn-secondary {
+  background-color: $color-gray-900;
+  color: $color-primary;
+  @include terminal-border($color-primary);
+  
+  &:hover {
+    background-color: $color-gray-800;
+  }
+}
+
+.btn-danger {
+  background-color: $color-danger;
+  color: white;
+  
+  &:hover {
+    background-color: darken($color-danger, 10%);
+  }
+}
+
+// Tamanhos
+.btn-sm {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.btn-lg {
+  padding: $spacing-lg $spacing-2xl;
+  font-size: $font-size-lg;
+}

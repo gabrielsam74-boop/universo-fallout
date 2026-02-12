@@ -1,0 +1,83 @@
+// ============================================
+// CARDS
+// ============================================
+
+.card {
+  background-color: rgba($color-gray-900, $opacity-medium);
+  @include terminal-border($color-primary);
+  padding: $spacing-lg;
+  @include smooth-transition(transform);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-card;
+    
+    @include respond-to('sm') {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.card-crt {
+  @include crt-effect;
+}
+
+.card-header {
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid rgba($color-primary, $opacity-low);
+}
+
+.card-body {
+  color: $color-gray-300;
+  line-height: 1.6;
+}
+
+.card-footer {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-gray-800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Card de jogo
+.game-card {
+  @extend .card;
+  overflow: hidden;
+  height: 100%;
+  
+  &__image {
+    height: 12rem;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, $color-gray-900, transparent);
+    }
+    
+    @include respond-to('sm') {
+      height: 14rem;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-lg;
+    background-color: $color-gray-900;
+  }
+  
+  &__title {
+    color: #fbbf24;
+    margin-bottom: $spacing-sm;
+    @include smooth-transition(color);
+    
+    &:hover {
+      color: #fcd34d;
+    }
+  }
+}

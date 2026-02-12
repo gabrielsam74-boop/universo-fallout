@@ -1,0 +1,70 @@
+// ============================================
+// VARIÁVEIS - Universo Fallout
+// ============================================
+
+// Cores principais
+$color-primary: #FDB813;        // Amarelo Fallout
+$color-secondary: #22c55e;      // Verde Pip-Boy
+$color-danger: #ef4444;         // Vermelho alerta
+$color-dark: #000000;           // Preto
+$color-gray-900: #111827;
+$color-gray-800: #1f2937;
+$color-gray-700: #374151;
+$color-gray-600: #4b5563;
+$color-gray-500: #6b7280;
+$color-gray-400: #9ca3af;
+$color-gray-300: #d1d5db;
+
+// Opacidades
+$opacity-high: 0.95;
+$opacity-medium: 0.8;
+$opacity-low: 0.3;
+
+// Espaçamentos
+$spacing-xs: 0.25rem;   // 4px
+$spacing-sm: 0.5rem;    // 8px
+$spacing-md: 1rem;      // 16px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;      // 32px
+$spacing-2xl: 3rem;     // 48px
+$spacing-3xl: 4rem;     // 64px
+
+// Tipografia
+$font-primary: 'Bebas Neue', sans-serif;
+$font-mono: 'VT323', monospace;
+
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.25rem;   // 20px
+$font-size-2xl: 1.5rem;   // 24px
+$font-size-3xl: 1.875rem; // 30px
+$font-size-4xl: 2.25rem;  // 36px
+$font-size-5xl: 3rem;     // 48px
+
+// Bordas
+$border-width: 2px;
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.5rem;
+
+// Sombras
+$shadow-glow-yellow: 0 0 20px rgba(253, 184, 19, 0.3);
+$shadow-glow-green: 0 0 10px rgba(34, 197, 94, 0.5);
+$shadow-card: 0 10px 30px rgba(253, 184, 19, 0.4);
+
+// Transições
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Z-index
+$z-header: 50;
+$z-modal: 100;
+$z-tooltip: 200;

@@ -1,0 +1,105 @@
+// ============================================
+// HEADER
+// ============================================
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba($color-dark, $opacity-high);
+  backdrop-filter: blur(8px);
+  z-index: $z-header;
+  border-bottom: $border-width solid #d97706;
+  box-shadow: 0 4px 20px rgba(#d97706, 0.5);
+  
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-md $spacing-lg;
+    max-width: 1280px;
+    margin: 0 auto;
+    
+    @include respond-to('sm') {
+      padding: $spacing-md $spacing-xl;
+    }
+  }
+  
+  &__logo {
+    font-size: $font-size-xl;
+    color: $color-primary;
+    @include smooth-transition(color);
+    
+    &:hover {
+      color: #fbbf24;
+    }
+    
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+  
+  &__nav {
+    display: none;
+    gap: $spacing-xl;
+    
+    @include respond-to('md') {
+      display: flex;
+    }
+  }
+  
+  &__link {
+    color: #fbbf24;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    @include smooth-transition(color);
+    
+    &:hover {
+      color: #fcd34d;
+    }
+  }
+  
+  &__menu-btn {
+    color: $color-primary;
+    padding: $spacing-sm;
+    @include smooth-transition(color);
+    
+    &:hover {
+      color: #fbbf24;
+    }
+    
+    @include respond-to('md') {
+      display: none;
+    }
+  }
+}
+
+// Menu mobile
+.mobile-menu {
+  background-color: rgba($color-dark, 0.98);
+  border-top: 1px solid rgba(#d97706, $opacity-low);
+  
+  @include respond-to('md') {
+    display: none;
+  }
+  
+  &__container {
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+  
+  &__link {
+    color: #fbbf24;
+    font-size: $font-size-sm;
+    text-transform: uppercase;
+    padding: $spacing-sm 0;
+    @include smooth-transition(color);
+    
+    &:hover {
+      color: #fcd34d;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+// ============================================
+// MIXINS - Reutilizáveis
+// ============================================
+
+// Responsividade
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) { @content; }
+  }
+  @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) { @content; }
+  }
+  @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) { @content; }
+  }
+  @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Efeito CRT (Tela antiga)
+@mixin crt-effect {
+  animation: flicker $transition-fast infinite;
+  
+  @keyframes flicker {
+    0% { opacity: 0.97; }
+    50% { opacity: 1; }
+    100% { opacity: 0.97; }
+  }
+}
+
+// Brilho (Glow)
+@mixin glow($color, $intensity: 0.6) {
+  text-shadow: 0 0 20px rgba($color, $intensity),
+               0 0 40px rgba($color, $intensity * 0.4);
+}
+
+// Borda Terminal
+@mixin terminal-border($color: $color-primary) {
+  border: $border-width solid $color;
+  box-shadow: 0 0 20px rgba($color, $opacity-low);
+}
+
+// Transição suave
+@mixin smooth-transition($property: all) {
+  transition: $property $transition-normal;
+}
+
+// Centralizar absoluto
+@mixin center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Flexbox centralizado
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Truncar texto
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Gradiente de fundo
+@mixin gradient-bg($color1, $color2) {
+  background: linear-gradient(135deg, $color1 0%, $color2 100%);
+}
